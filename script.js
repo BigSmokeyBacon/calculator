@@ -3,7 +3,8 @@ let displayValue = 0;
 let userInputValue = 0;
 let totalValue = 0;
 
-const displayEl = document.querySelector('.display');
+const displayTotal = document.querySelector('.total');
+const displayInput = document.querySelector('.input');
 const btnClear = document.querySelector('.clear');
 const btnDelete = document.querySelector('.delete');
 const btnAdd = document.querySelector('.add');
@@ -24,6 +25,55 @@ const btnOne = document.querySelector('.one');
 const btnZero = document.querySelector('.zero');
 const allBtns = document.querySelectorAll('.btn');
 
+const operate = function () {
+  if (btnAdd.classList.contains('active')) {
+    if (totalValue === 0) {
+      totalValue = userInputValue;
+      userInputValue = 0;
+    } else {
+      totalValue = add(userInputValue, totalValue);
+      userInputValue = 0;
+      displayTotal.textContent = totalValue;
+    }
+  } else if (btnSubtract.classList.contains('active')) {
+    if (totalValue === 0) {
+      totalValue = userInputValue;
+      userInputValue = 0;
+    } else {
+      totalValue = totalValue - userInputValue;
+      userInputValue = 0;
+      displayTotal.textContent = totalValue;
+    }
+  } else if (btnMultiply.classList.contains('active')) {
+    if (totalValue === 0) {
+      totalValue = userInputValue;
+      userInputValue = 0;
+    } else {
+      if (userInputValue === 0) {
+        return;
+      } else {
+        totalValue = totalValue * userInputValue;
+        userInputValue = 0;
+        displayTotal.textContent = totalValue;
+      }
+    }
+    // removeActiveClasslist();
+  } else if (btnDivide.classList.contains('active')) {
+    if (totalValue === 0) {
+      totalValue = userInputValue;
+      userInputValue = 0;
+    } else {
+      if (userInputValue === 0) {
+        return;
+      } else {
+        totalValue = totalValue / userInputValue;
+        userInputValue = 0;
+        displayTotal.textContent = totalValue;
+      }
+    }
+  }
+};
+
 function removeActiveClasslist() {
   btnAdd.classList.remove('active');
   btnSubtract.classList.remove('active');
@@ -32,9 +82,9 @@ function removeActiveClasslist() {
   userInputValue = Number(userInputValue);
 }
 btnAdd.addEventListener('click', function () {
+  operate();
   removeActiveClasslist();
   btnAdd.classList.add('active');
-  btnSubtract.classList.remove('active');
   userInputValue = Number(userInputValue);
   if (totalValue === 0) {
     totalValue = userInputValue;
@@ -42,10 +92,12 @@ btnAdd.addEventListener('click', function () {
   } else {
     totalValue += userInputValue;
     userInputValue = 0;
+    displayTotal.textContent = totalValue;
   }
 });
 
 btnSubtract.addEventListener('click', function () {
+  operate();
   removeActiveClasslist();
   btnSubtract.classList.add('active');
   if (totalValue === 0) {
@@ -54,72 +106,80 @@ btnSubtract.addEventListener('click', function () {
   } else {
     totalValue -= userInputValue;
     userInputValue = 0;
+    displayTotal.textContent = totalValue;
   }
 });
 
 btnMultiply.addEventListener('click', function () {
+  operate();
   removeActiveClasslist();
+  btnMultiply.classList.add('active');
   if (totalValue === 0) {
     totalValue = userInputValue;
     userInputValue = 0;
-  } else {
-    if (!btnMultiply.classList.contains('active')) {
-      totalValue *= userInputValue;
-      userInputValue = 0;
-      displayEl.textContent = totalValue;
-    } else {
-      return;
-    }
-    // // addUserInput();
-    // totalValue *= userInputValue;
-    // userInputValue = 0;
-    // displayEl.textContent = totalValue;
+    //   } else {
+    //     if (btnMultiply.classList.contains('active')) {
+    //       totalValue *= userInputValue;
+    //       userInputValue = 0;
+    //       displayInput.textContent = totalValue;
+    //     } else {
+    //       return;
+    //     }
   }
-  btnMultiply.classList.add('active');
 });
 btnDivide.addEventListener('click', function () {
+  operate();
   removeActiveClasslist();
   btnDivide.classList.add('active');
   if (totalValue === 0) {
     totalValue = userInputValue;
     userInputValue = 0;
-  } else {
-    totalValue /= userInputValue;
-    userInputValue = 0;
-  }
-});
-btnEqual.addEventListener('click', function () {
-  if (btnAdd.classList.contains('active')) {
-    totalValue = add(userInputValue, totalValue);
-    userInputValue = 0;
-    displayEl.textContent = totalValue;
-  } else if (btnSubtract.classList.contains('active')) {
-    totalValue = totalValue - userInputValue;
-    userInputValue = 0;
-    displayEl.textContent = totalValue;
-  } else if (btnMultiply.classList.contains('active')) {
-    totalValue = totalValue * userInputValue;
-    userInputValue = 0;
-    displayEl.textContent = totalValue;
-    removeActiveClasslist();
-  } else if (btnDivide.classList.contains('active')) {
-    totalValue = divide(totalValue, userInputValue);
-    userInputValue = 0;
-    displayEl.textContent = totalValue;
+    //   } else {
+    //     if (btnDivide.classList.contains('active')) {
+    //       totalValue /= userInputValue;
+    //       userInputValue = 0;
+    //       displayInput.textContent = totalValue;
+    //     } else {
+    //       return;
+    //     }
   }
 });
 
-displayEl.textContent = 0;
+btnEqual.addEventListener('click', operate);
+
+// btnEqual.addEventListener('click', function () {
+//     if (btnAdd.classList.contains('active')) {
+//       totalValue = add(userInputValue, totalValue);
+//       userInputValue = 0;
+//       displayInput.textContent = totalValue;
+//     } else if (btnSubtract.classList.contains('active')) {
+//       totalValue = totalValue - userInputValue;
+//       userInputValue = 0;
+//       displayInput.textContent = totalValue;
+//     } else if (btnMultiply.classList.contains('active')) {
+//       totalValue = totalValue * userInputValue;
+//       userInputValue = 0;
+//       displayInput.textContent = totalValue;
+//       removeActiveClasslist();
+//     } else if (btnDivide.classList.contains('active')) {
+//       totalValue = totalValue / userInputValue;
+//       userInputValue = 0;
+//       displayInput.textContent = totalValue;
+//     }
+//   });
+
+displayInput.textContent = 0;
 
 const clearAll = function () {
   displayValue = 0;
   userInputValue = 0;
   totalValue = 0;
-  displayEl.textContent = 0;
+  displayInput.textContent = 0;
+  displayTotal.textContent = 0;
 };
 btnDelete.addEventListener('click', function () {
   userInputValue = userInputValue.slice(0, -1);
-  displayEl.textContent = userInputValue;
+  displayInput.textContent = userInputValue;
 });
 
 btnClear.addEventListener('click', clearAll);
@@ -133,7 +193,7 @@ const addUserInput = function (e) {
   } else {
     userInputValue += e.target.textContent;
   }
-  displayEl.textContent = userInputValue;
+  displayInput.textContent = userInputValue;
 };
 btnNine.addEventListener('click', addUserInput);
 btnEight.addEventListener('click', addUserInput);
