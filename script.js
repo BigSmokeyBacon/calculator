@@ -4,6 +4,15 @@ const displayEl = document.querySelector('.display');
 const btnClear = document.querySelector('.clear');
 const btnDelete = document.querySelector('.delete');
 const btnNine = document.querySelector('.nine');
+const btnEight = document.querySelector('.eight');
+const btnSeven = document.querySelector('.seven');
+const btnSix = document.querySelector('.six');
+const btnFive = document.querySelector('.five');
+const btnFour = document.querySelector('.four');
+const btnThree = document.querySelector('.three');
+const btnTwo = document.querySelector('.two');
+const btnOne = document.querySelector('.one');
+const btnZero = document.querySelector('.zero');
 
 displayValue = 10000;
 displayEl.textContent = displayValue;
@@ -18,19 +27,32 @@ const clearAll = function () {
 btnDelete.addEventListener('click', function () {
   firstUserInputValue = firstUserInputValue.slice(0, -1);
   console.log(firstUserInputValue);
+  displayEl.textContent = firstUserInputValue;
 });
 
 btnClear.addEventListener('click', clearAll);
-btnNine.addEventListener('click', function (e) {
+const addUserInput = function (e) {
   if (typeof firstUserInputValue === 'undefined' || firstUserInputValue === 0) {
+    if (e.target.textContent === '0') {
+      return;
+    }
     firstUserInputValue = e.target.textContent;
   } else {
     firstUserInputValue += e.target.textContent;
   }
   console.log(firstUserInputValue);
-});
-
-const addUserInput = function () {};
+  displayEl.textContent = firstUserInputValue;
+};
+btnNine.addEventListener('click', addUserInput);
+btnEight.addEventListener('click', addUserInput);
+btnSeven.addEventListener('click', addUserInput);
+btnSix.addEventListener('click', addUserInput);
+btnFive.addEventListener('click', addUserInput);
+btnFour.addEventListener('click', addUserInput);
+btnThree.addEventListener('click', addUserInput);
+btnTwo.addEventListener('click', addUserInput);
+btnOne.addEventListener('click', addUserInput);
+btnZero.addEventListener('click', addUserInput);
 
 //button functions
 const add = function (a, b) {
