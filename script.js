@@ -1,8 +1,12 @@
 'use strict';
-let displayValue, firstUserInputValue, secondUserInputValue, totalValue;
+let displayValue = 0;
+let userInputValue = 0;
+let totalValue = 0;
+
 const displayEl = document.querySelector('.display');
 const btnClear = document.querySelector('.clear');
 const btnDelete = document.querySelector('.delete');
+const btnAdd = document.querySelector('.add');
 const btnNine = document.querySelector('.nine');
 const btnEight = document.querySelector('.eight');
 const btnSeven = document.querySelector('.seven');
@@ -14,34 +18,46 @@ const btnTwo = document.querySelector('.two');
 const btnOne = document.querySelector('.one');
 const btnZero = document.querySelector('.zero');
 
+btnAdd.addEventListener('click', function () {
+  userInputValue = Number(userInputValue);
+  displayEl.textContent = userInputValue + '+';
+  if (totalValue === 0) {
+    totalValue = userInputValue;
+    userInputValue = 0;
+  } else {
+    totalValue += userInputValue;
+    userInputValue = 0;
+  }
+});
+
 displayValue = 10000;
-displayEl.textContent = displayValue;
+displayEl.textContent = 0;
 
 const clearAll = function () {
   displayValue = 0;
-  firstUserInputValue = 0;
+  userInputValue = 0;
   secondUserInputValue = 0;
   totalValue = 0;
-  displayEl.textContent = displayValue;
+  displayEl.textContent = 0;
 };
 btnDelete.addEventListener('click', function () {
-  firstUserInputValue = firstUserInputValue.slice(0, -1);
-  console.log(firstUserInputValue);
-  displayEl.textContent = firstUserInputValue;
+  userInputValue = userInputValue.slice(0, -1);
+  console.log(userInputValue);
+  displayEl.textContent = userInputValue;
 });
 
 btnClear.addEventListener('click', clearAll);
 const addUserInput = function (e) {
-  if (typeof firstUserInputValue === 'undefined' || firstUserInputValue === 0) {
+  if (typeof userInputValue === 'undefined' || userInputValue === 0) {
     if (e.target.textContent === '0') {
       return;
     }
-    firstUserInputValue = e.target.textContent;
+    userInputValue = e.target.textContent;
   } else {
-    firstUserInputValue += e.target.textContent;
+    userInputValue += e.target.textContent;
   }
-  console.log(firstUserInputValue);
-  displayEl.textContent = firstUserInputValue;
+  console.log(userInputValue);
+  displayEl.textContent = userInputValue;
 };
 btnNine.addEventListener('click', addUserInput);
 btnEight.addEventListener('click', addUserInput);
