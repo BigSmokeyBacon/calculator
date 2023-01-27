@@ -307,6 +307,9 @@ const divide = function (a, b) {
 // str = str.replaceAll("^0+", "");
 // str = str.replaceAll("^0+", "");
 const operate = function () {
+  displayInput.textContent = 0;
+  decimalOnOff = true;
+
   console.log(userInputText.textContent);
   console.log(userInputText.textContent !== 'a');
   console.log(userInputValue, totalValue);
