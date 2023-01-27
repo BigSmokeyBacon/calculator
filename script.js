@@ -1,9 +1,7 @@
-'use strict';
-let displayValue = '';
+('use strict');
 let userInputValue = '';
 let totalValue = 0;
 let decimalOnOff = true;
-console.log(displayValue.textContent === undefined);
 
 const displayTotal = document.querySelector('.total');
 const displayInput = document.querySelector('.input');
@@ -28,26 +26,6 @@ const btnOne = document.querySelector('.one');
 const btnZero = document.querySelector('.zero');
 const allBtns = document.querySelectorAll('.btn');
 
-console.log(Number('000'));
-for (let i = 0; i < allBtns.length; i++) {
-  //   helpMe();
-  allBtns[i].addEventListener('click', function () {
-    console.log(userInputValue, totalValue);
-  });
-}
-// function helpMe() {
-//   if (
-//     displayInput.textContent === '0' ||
-//     displayInput.textContent === 'lol' ||
-//     // displayTotal.textContent === '0' ||
-//     displayTotal.textContent === 'lol'
-//   ) {
-//     console.log(true);
-//     userInputValue = 0;
-//     totalValue = 0;
-//   }
-// }
-
 function removeActiveClasslist() {
   btnAdd.classList.remove('active');
   btnSubtract.classList.remove('active');
@@ -55,29 +33,42 @@ function removeActiveClasslist() {
   btnDivide.classList.remove('active');
   userInputValue = Number(userInputValue);
 }
-btnAdd.addEventListener('click', function () {
+function initUserInput() {
+  totalValue = userInputValue;
+  userInputText.textContent = 'a';
+  userInputValue = '';
+}
+function resetUserInput() {
+  displayTotal.textContent = totalValue;
+  userInputText.textContent = 'a';
+  userInputValue = '';
+}
+const decimalSwitch = function () {
+  if (decimalOnOff) {
+    btnDecimal.addEventListener('click', addUserInput);
+    decimalOnOff = false;
+  } else {
+    btnDecimal.removeEventListener('click', addUserInput);
+  }
   console.log(userInputValue);
-  // if (!userInputValue.textContent === undefined) {
+};
+
+btnDecimal.addEventListener('click', decimalSwitch);
+
+btnAdd.addEventListener('click', function () {
+  decimalOnOff = true;
   operate();
   removeActiveClasslist();
-  decimalOnOff = true;
   btnAdd.classList.add('active');
   userInputValue = Number(userInputValue);
   if (totalValue === 0) {
-    totalValue = userInputValue;
-    userInputText.textContent = 'a';
-    userInputValue = '';
+    initUserInput();
   } else {
-    // if (!userInputValue.textContent === undefined) {
     totalValue += userInputValue;
-    displayTotal.textContent = totalValue;
-    userInputText.textContent = 'a';
-    userInputValue = '';
+    resetUserInput();
   }
-  // }
 
   displayInput.textContent = 0;
-  // }
 });
 
 btnSubtract.addEventListener('click', function () {
@@ -86,26 +77,16 @@ btnSubtract.addEventListener('click', function () {
   decimalOnOff = true;
   btnSubtract.classList.add('active');
   userInputValue = Number(userInputValue);
-  if (totalValue === 0 && userInputValue > 0) {
-    console.log('hello');
-    totalValue = userInputValue;
-    userInputText.textContent = 'a';
-    userInputValue = '';
+  if (totalValue === 0) {
+    initUserInput();
   } else {
-    totalValue -= userInputValue;
-    displayTotal.textContent = totalValue;
-    userInputText.textContent = 'a';
-    userInputValue = '';
+    totalValue += userInputValue;
+    resetUserInput();
   }
   displayInput.textContent = 0;
 });
 
 btnMultiply.addEventListener('click', function () {
-  // userInputValue = Number(userInputvalue);
-  // if ((userInputValue = '0')) {
-  //   userInputValue = '';
-  // }
-  console.log(userInputValue);
   userInputValue = Number(userInputValue);
   operate();
   removeActiveClasslist();
@@ -113,22 +94,12 @@ btnMultiply.addEventListener('click', function () {
   btnMultiply.classList.add('active');
 
   if (totalValue === 0) {
-    totalValue = userInputValue;
-    userInputText.textContent = 'a';
-    userInputValue = '';
+    initUserInput();
   } else {
     if (btnMultiply.classList.contains('active')) {
-      console.log(
-        `hello ${typeof userInputValue} ${userInputValue} ${
-          userInputText.textContent
-        }`
-      );
       if (userInputValue || userInputText.textContent === '0') {
         totalValue *= userInputValue;
-        displayInput.textContent = totalValue;
-        userInputText.textContent = 'a';
-        userInputValue = '';
-        displayTotal.textContent = totalValue;
+        resetUserInput();
       }
     } else {
       return;
@@ -137,11 +108,6 @@ btnMultiply.addEventListener('click', function () {
   displayInput.textContent = 0;
 });
 btnDivide.addEventListener('click', function () {
-  // userInputValue = Number(userInputValue);
-  // totalValue = Number(totalValue);
-  // if ((userInputValue = '0')) {
-  //   userInputValue = '';
-  // }
   operate();
   removeActiveClasslist();
   decimalOnOff = true;
@@ -149,63 +115,26 @@ btnDivide.addEventListener('click', function () {
   userInputValue = Number(userInputValue);
 
   if (totalValue === 0) {
-    totalValue = userInputValue;
-    userInputText.textContent = 'a';
-    userInputValue = '';
+    initUserInput();
   } else {
     if (btnDivide.classList.contains('active')) {
       if (userInputValue || userInputText.textContent === '0') {
         totalValue *= userInputValue;
-        displayInput.textContent = totalValue;
-        userInputText.textContent = 'a';
-        userInputValue = '';
-        displayTotal.textContent = totalValue;
+        resetUserInput();
       }
     } else {
       return;
     }
-    //   totalValue /= userInputValue;
-    //   displayInput.textContent = totalValue;
-    //   userInputText.textContent = 'a';
-    //   userInputValue = '';
-    // } else {
-    //   return;
-    // }
   }
   if (displayTotal.textContent === 'lol') {
     displayInput.textContent = 'lol';
   } else {
     displayInput.textContent = 0;
   }
-  console.log(userInputValue, totalValue);
 });
-
-// btnEqual.addEventListener('click', function () {
-//     if (btnAdd.classList.contains('active')) {
-//       totalValue = add(userInputValue, totalValue);
-//       userInputValue = 0;
-//       displayInput.textContent = totalValue;
-//     } else if (btnSubtract.classList.contains('active')) {
-//       totalValue = totalValue - userInputValue;
-//       userInputValue = 0;
-//       displayInput.textContent = totalValue;
-//     } else if (btnMultiply.classList.contains('active')) {
-//       totalValue = totalValue * userInputValue;
-//       userInputValue = 0;
-//       displayInput.textContent = totalValue;
-//       removeActiveClasslist();
-//     } else if (btnDivide.classList.contains('active')) {
-//       totalValue = totalValue / userInputValue;
-//       userInputValue = 0;
-//       displayInput.textContent = totalValue;
-//     }
-//   });
-
-// displayInput.textContent = 0;
 
 const clearAll = function () {
   removeActiveClasslist();
-  displayValue = 0;
   userInputValue = '';
   totalValue = 0;
   displayInput.textContent = 0;
@@ -213,32 +142,18 @@ const clearAll = function () {
   userInputText.textContent = 'a';
   decimalOnOff = true;
 };
-btnDelete.addEventListener('click', function () {
-  userInputValue = userInputValue.slice(0, -1);
-  displayInput.textContent = userInputValue;
-});
-
-btnClear.addEventListener('click', clearAll);
 
 const addUserInput = function (e) {
-  console.log(Number(userInputValue));
   if (
     typeof userInputValue === 'undefined' ||
     userInputText.textContent !== 'a'
   ) {
-    // if (e.target.textContent === '0' || e.target.textContent === '.') {
-    //   console.log('jello');
-    //   return;
-    // }
     userInputValue += e.target.textContent;
-    // userInputValue = userInputValue.replaceAll('^0+', '');
 
     userInputText.textContent = `${userInputValue}`;
   } else {
     userInputValue += e.target.textContent;
-    // userInputValue = userInputValue.replaceAll('^0+', '');
     userInputText.textContent = `${userInputValue}`;
-    // userInputValue.textContent = `${userInputValue}`;
   }
   if (e.target.textContent === '.') {
     if (userInputValue === '0' || userInputValue === '.') {
@@ -247,22 +162,76 @@ const addUserInput = function (e) {
       return;
     } else {
       displayInput.textContent = `${Number(userInputValue)}.`;
-      console.log(Number(userInputValue));
     }
   } else if (e.target.textContent === '0') {
     if (displayInput.textContent === '0') {
       return;
     } else {
       displayInput.textContent += `${e.target.textContent}`;
-      console.log('ZAYRO');
     }
   } else {
     displayInput.textContent = Number(userInputValue);
   }
-  console.log(userInputText.textContent);
-  console.log(userInputValue, totalValue);
-  console.log(e.target.classList);
 };
+
+const operate = function () {
+  displayInput.textContent = 0;
+  decimalOnOff = true;
+
+  if (userInputText.textContent !== 'a') {
+    userInputValue = Number(userInputValue);
+    totalValue = Number(totalValue);
+    if (btnAdd.classList.contains('active')) {
+      if (totalValue === 0) {
+        initUserInput();
+      } else {
+        totalValue = userInputValue + totalValue;
+        resetUserInput();
+      }
+    } else if (btnSubtract.classList.contains('active')) {
+      if (totalValue === 0) {
+        initUserInput();
+      } else {
+        totalValue = totalValue - userInputValue;
+        resetUserInput();
+      }
+    } else if (btnMultiply.classList.contains('active')) {
+      if (totalValue === 0) {
+        initUserInput();
+      } else {
+        if (userInputValue === 0 && userInputText.textContent !== 'a') {
+          totalValue = 0;
+          displayInput.textContent = '0';
+          resetUserInput();
+          return;
+        } else {
+          userInputValue = Number(userInputValue);
+          totalValue = totalValue * userInputValue;
+          resetUserInput();
+        }
+      }
+    } else if (btnDivide.classList.contains('active')) {
+      if (totalValue === 0) {
+        initUserInput();
+      } else {
+        if (userInputValue === 0 && userInputText.textContent !== 'a') {
+          displayInput.textContent = 'lol';
+          displayTotal.textContent = 'lol';
+          return;
+        } else {
+          totalValue = totalValue / userInputValue;
+          resetUserInput();
+        }
+      }
+    } else {
+      totalValue = userInputValue;
+      displayTotal.textContent = totalValue;
+      userInputValue = '';
+    }
+  }
+};
+
+btnEqual.addEventListener('click', operate);
 btnNine.addEventListener('click', addUserInput);
 btnEight.addEventListener('click', addUserInput);
 btnSeven.addEventListener('click', addUserInput);
@@ -273,154 +242,9 @@ btnThree.addEventListener('click', addUserInput);
 btnTwo.addEventListener('click', addUserInput);
 btnOne.addEventListener('click', addUserInput);
 btnZero.addEventListener('click', addUserInput);
-btnDecimal.addEventListener('click', function () {
-  if (decimalOnOff) {
-    btnDecimal.addEventListener('click', addUserInput);
-  } else {
-    btnDecimal.removeEventListener('click', addUserInput);
-  }
-  decimalOnOff = false;
-});
 btnDecimal.addEventListener('click', addUserInput);
-
-//button functions
-const add = function (c, d) {
-  let a = Number(c);
-  let b = Number(d);
-  return a + b;
-};
-
-const subtract = function (a, b) {
-  return a - b;
-};
-
-//works but you have to put in array
-// const multiply = function (a, b) {
-//   return a * b;
-// };
-// const multiply = function (...args) {
-//     let sum = 0;
-//     let numbers = args.map(Number);
-//     console.log(numbers);
-//     for (let i = 0; i < numbers.length; i++) {
-//       if (i === 0) {
-//         sum += args[i];
-//       } else {
-//         sum *= args[i];
-//       }
-//     }
-//     return sum[0];
-//   };
-//works but have to put in array
-const divide = function (a, b) {
-  return a / b;
-};
-
-// const operate = function (...args) {
-//   let operator = [...args];
-//   return operator[1];
-//   if (operator === '+') {
-//     add(value1, value2);
-//   } else if (operator === '-') {
-//     subtract(value1, value2);
-//   } else if (operator === '*') {
-//     multiply(value1, value2);
-//   } else if (operator === '/') {
-//     divide(value1, value2);
-//   }
-// };
-// str = str.replaceAll("^0+", "");
-// str = str.replaceAll("^0+", "");
-const operate = function () {
-  displayInput.textContent = 0;
-  decimalOnOff = true;
-
-  console.log(userInputText.textContent);
-  console.log(userInputText.textContent !== 'a');
-  console.log(userInputValue, totalValue);
-  if (userInputText.textContent !== 'a') {
-    userInputValue = Number(userInputValue);
-    totalValue = Number(totalValue);
-    if (btnAdd.classList.contains('active')) {
-      console.log('ADD');
-      if (totalValue === 0) {
-        totalValue = userInputValue;
-        userInputText.textContent = 'a';
-        userInputValue = '';
-      } else {
-        totalValue = add(userInputValue, totalValue);
-        displayTotal.textContent = totalValue;
-        userInputText.textContent = 'a';
-        userInputValue = '';
-      }
-    } else if (btnSubtract.classList.contains('active')) {
-      console.log('SUBRATC');
-      if (totalValue === 0) {
-        totalValue = userInputValue;
-        userInputText.textContent = 'a';
-        userInputValue = '';
-      } else {
-        totalValue = totalValue - userInputValue;
-        displayTotal.textContent = totalValue;
-        userInputText.textContent = 'a';
-        userInputValue = '';
-      }
-    } else if (btnMultiply.classList.contains('active')) {
-      console.log('MULTIPLY');
-      if (totalValue === 0) {
-        totalValue = userInputValue;
-        userInputText.textContent = 'a';
-        userInputValue = '';
-      } else {
-        console.log('hello');
-        if (userInputValue === 0 && userInputText.textContent !== 'a') {
-          console.log('hello');
-          totalValue = 0;
-          userInputText.textContent = 'a';
-          userInputValue = '';
-
-          displayInput.textContent = '0';
-          displayTotal.textContent = '0';
-          return;
-        } else {
-          userInputValue = Number(userInputValue);
-          console.log('goodbye');
-          totalValue = totalValue * userInputValue;
-          displayTotal.textContent = totalValue;
-          userInputValue = '';
-
-          userInputText.textContent = 'a';
-        }
-      }
-      // removeActiveClasslist();
-    } else if (btnDivide.classList.contains('active')) {
-      console.log('DIVIFDE');
-      if (totalValue === 0) {
-        totalValue = userInputValue;
-        userInputText.textContent = 'a';
-
-        userInputValue = '';
-      } else {
-        if (userInputValue === 0 && userInputText.textContent !== 'a') {
-          displayInput.textContent = 'lol';
-          displayTotal.textContent = 'lol';
-          return;
-        } else {
-          totalValue = totalValue / userInputValue;
-          displayTotal.textContent = totalValue;
-          userInputText.textContent = 'a';
-          userInputValue = '';
-        }
-      }
-    } else {
-      totalValue = userInputValue;
-      displayTotal.textContent = totalValue;
-      userInputValue = '';
-    }
-    //   helpMe();
-  }
-  console.log(userInputValue, totalValue);
-  console.log(userInputText.textContent);
-};
-
-btnEqual.addEventListener('click', operate);
+btnClear.addEventListener('click', clearAll);
+btnDelete.addEventListener('click', function () {
+  userInputValue = userInputValue.slice(0, -1);
+  displayInput.textContent = userInputValue;
+});
