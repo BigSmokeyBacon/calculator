@@ -28,6 +28,7 @@ const btnOne = document.querySelector('.one');
 const btnZero = document.querySelector('.zero');
 const allBtns = document.querySelectorAll('.btn');
 
+console.log(Number('000'));
 for (let i = 0; i < allBtns.length; i++) {
   //   helpMe();
   allBtns[i].addEventListener('click', function () {
@@ -100,11 +101,16 @@ btnSubtract.addEventListener('click', function () {
 });
 
 btnMultiply.addEventListener('click', function () {
+  // userInputValue = Number(userInputvalue);
+  // if ((userInputValue = '0')) {
+  //   userInputValue = '';
+  // }
+  console.log(userInputValue);
+  userInputValue = Number(userInputValue);
   operate();
   removeActiveClasslist();
   decimalOnOff = true;
   btnMultiply.classList.add('active');
-  userInputValue = Number(userInputValue);
 
   if (totalValue === 0) {
     totalValue = userInputValue;
@@ -112,6 +118,11 @@ btnMultiply.addEventListener('click', function () {
     userInputValue = '';
   } else {
     if (btnMultiply.classList.contains('active')) {
+      console.log(
+        `hello ${typeof userInputValue} ${userInputValue} ${
+          userInputText.textContent
+        }`
+      );
       if (userInputValue || userInputText.textContent === '0') {
         totalValue *= userInputValue;
         displayInput.textContent = totalValue;
@@ -128,6 +139,9 @@ btnMultiply.addEventListener('click', function () {
 btnDivide.addEventListener('click', function () {
   // userInputValue = Number(userInputValue);
   // totalValue = Number(totalValue);
+  // if ((userInputValue = '0')) {
+  //   userInputValue = '';
+  // }
   operate();
   removeActiveClasslist();
   decimalOnOff = true;
@@ -207,10 +221,7 @@ btnDelete.addEventListener('click', function () {
 btnClear.addEventListener('click', clearAll);
 
 const addUserInput = function (e) {
-  if (e.target.textContent !== '.') {
-    // decimalOnOff = true;
-  }
-  console.log(userInputValue);
+  console.log(Number(userInputValue));
   if (
     typeof userInputValue === 'undefined' ||
     userInputText.textContent !== 'a'
@@ -230,7 +241,21 @@ const addUserInput = function (e) {
     // userInputValue.textContent = `${userInputValue}`;
   }
   if (e.target.textContent === '.') {
-    displayInput.textContent = `${Number(userInputValue)}.`;
+    if (userInputValue === '0' || userInputValue === '.') {
+      displayInput.textContent = `0.`;
+
+      return;
+    } else {
+      displayInput.textContent = `${Number(userInputValue)}.`;
+      console.log(Number(userInputValue));
+    }
+  } else if (e.target.textContent === '0') {
+    if (displayInput.textContent === '0') {
+      return;
+    } else {
+      displayInput.textContent += `${e.target.textContent}`;
+      console.log('ZAYRO');
+    }
   } else {
     displayInput.textContent = Number(userInputValue);
   }
@@ -358,6 +383,7 @@ const operate = function () {
           displayTotal.textContent = '0';
           return;
         } else {
+          userInputValue = Number(userInputValue);
           console.log('goodbye');
           totalValue = totalValue * userInputValue;
           displayTotal.textContent = totalValue;
