@@ -1,10 +1,13 @@
 'use strict';
-let displayValue = 0;
-let userInputValue = 0;
+let displayValue = '';
+let userInputValue = '';
 let totalValue = 0;
+let decimalOnOff = true;
+console.log(displayValue.textContent === undefined);
 
 const displayTotal = document.querySelector('.total');
 const displayInput = document.querySelector('.input');
+const userInputText = document.querySelector('.text');
 const btnClear = document.querySelector('.clear');
 const btnDelete = document.querySelector('.delete');
 const btnAdd = document.querySelector('.add');
@@ -25,54 +28,24 @@ const btnOne = document.querySelector('.one');
 const btnZero = document.querySelector('.zero');
 const allBtns = document.querySelectorAll('.btn');
 
-const operate = function () {
-  if (btnAdd.classList.contains('active')) {
-    if (totalValue === 0) {
-      totalValue = userInputValue;
-      userInputValue = 0;
-    } else {
-      totalValue = add(userInputValue, totalValue);
-      userInputValue = 0;
-      displayTotal.textContent = totalValue;
-    }
-  } else if (btnSubtract.classList.contains('active')) {
-    if (totalValue === 0) {
-      totalValue = userInputValue;
-      userInputValue = 0;
-    } else {
-      totalValue = totalValue - userInputValue;
-      userInputValue = 0;
-      displayTotal.textContent = totalValue;
-    }
-  } else if (btnMultiply.classList.contains('active')) {
-    if (totalValue === 0) {
-      totalValue = userInputValue;
-      userInputValue = 0;
-    } else {
-      if (userInputValue === 0) {
-        return;
-      } else {
-        totalValue = totalValue * userInputValue;
-        userInputValue = 0;
-        displayTotal.textContent = totalValue;
-      }
-    }
-    // removeActiveClasslist();
-  } else if (btnDivide.classList.contains('active')) {
-    if (totalValue === 0) {
-      totalValue = userInputValue;
-      userInputValue = 0;
-    } else {
-      if (userInputValue === 0) {
-        return;
-      } else {
-        totalValue = totalValue / userInputValue;
-        userInputValue = 0;
-        displayTotal.textContent = totalValue;
-      }
-    }
-  }
-};
+for (let i = 0; i < allBtns.length; i++) {
+  //   helpMe();
+  allBtns[i].addEventListener('click', function () {
+    console.log(userInputValue, totalValue);
+  });
+}
+// function helpMe() {
+//   if (
+//     displayInput.textContent === '0' ||
+//     displayInput.textContent === 'lol' ||
+//     // displayTotal.textContent === '0' ||
+//     displayTotal.textContent === 'lol'
+//   ) {
+//     console.log(true);
+//     userInputValue = 0;
+//     totalValue = 0;
+//   }
+// }
 
 function removeActiveClasslist() {
   btnAdd.classList.remove('active');
@@ -82,70 +55,105 @@ function removeActiveClasslist() {
   userInputValue = Number(userInputValue);
 }
 btnAdd.addEventListener('click', function () {
+  // if (!userInputValue.textContent === undefined) {
   operate();
   removeActiveClasslist();
+  decimalOnOff = true;
   btnAdd.classList.add('active');
   userInputValue = Number(userInputValue);
   if (totalValue === 0) {
     totalValue = userInputValue;
-    userInputValue = 0;
+    userInputText.textContent = 'a';
+    userInputValue = '';
   } else {
+    // if (!userInputValue.textContent === undefined) {
     totalValue += userInputValue;
-    userInputValue = 0;
     displayTotal.textContent = totalValue;
+    userInputText.textContent = 'a';
+    userInputValue = '';
   }
+  // }
+  // }
 });
 
 btnSubtract.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
+  decimalOnOff = true;
   btnSubtract.classList.add('active');
-  if (totalValue === 0) {
+  userInputValue = Number(userInputValue);
+  if (totalValue === 0 && userInputValue > 0) {
+    console.log('hello');
     totalValue = userInputValue;
-    userInputValue = 0;
+    userInputText.textContent = 'a';
+    userInputValue = '';
   } else {
     totalValue -= userInputValue;
-    userInputValue = 0;
     displayTotal.textContent = totalValue;
+    userInputText.textContent = 'a';
+    userInputValue = '';
   }
 });
 
 btnMultiply.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
+  decimalOnOff = true;
   btnMultiply.classList.add('active');
+  userInputValue = Number(userInputValue);
+
   if (totalValue === 0) {
     totalValue = userInputValue;
-    userInputValue = 0;
-    //   } else {
-    //     if (btnMultiply.classList.contains('active')) {
-    //       totalValue *= userInputValue;
-    //       userInputValue = 0;
-    //       displayInput.textContent = totalValue;
-    //     } else {
-    //       return;
-    //     }
+    userInputText.textContent = 'a';
+    userInputValue = '';
+  } else {
+    if (btnMultiply.classList.contains('active')) {
+      if (userInputValue || userInputText.textContent === '0') {
+        totalValue *= userInputValue;
+        displayInput.textContent = totalValue;
+        userInputText.textContent = 'a';
+        userInputValue = '';
+        displayTotal.textContent = totalValue;
+      }
+    } else {
+      return;
+    }
   }
 });
 btnDivide.addEventListener('click', function () {
+  // userInputValue = Number(userInputValue);
+  // totalValue = Number(totalValue);
   operate();
   removeActiveClasslist();
+  decimalOnOff = true;
   btnDivide.classList.add('active');
+  userInputValue = Number(userInputValue);
+
   if (totalValue === 0) {
     totalValue = userInputValue;
-    userInputValue = 0;
-    //   } else {
-    //     if (btnDivide.classList.contains('active')) {
-    //       totalValue /= userInputValue;
-    //       userInputValue = 0;
-    //       displayInput.textContent = totalValue;
-    //     } else {
-    //       return;
-    //     }
+    userInputText.textContent = 'a';
+    userInputValue = '';
+  } else {
+    if (btnDivide.classList.contains('active')) {
+      if (userInputValue || userInputText.textContent === '0') {
+        totalValue *= userInputValue;
+        displayInput.textContent = totalValue;
+        userInputText.textContent = 'a';
+        userInputValue = '';
+        displayTotal.textContent = totalValue;
+      }
+    } else {
+      return;
+    }
+    //   totalValue /= userInputValue;
+    //   displayInput.textContent = totalValue;
+    //   userInputText.textContent = 'a';
+    //   userInputValue = '';
+    // } else {
+    //   return;
+    // }
   }
 });
-
-btnEqual.addEventListener('click', operate);
 
 // btnEqual.addEventListener('click', function () {
 //     if (btnAdd.classList.contains('active')) {
@@ -168,14 +176,17 @@ btnEqual.addEventListener('click', operate);
 //     }
 //   });
 
-displayInput.textContent = 0;
+// displayInput.textContent = 0;
 
 const clearAll = function () {
+  removeActiveClasslist();
   displayValue = 0;
-  userInputValue = 0;
+  userInputValue = '';
   totalValue = 0;
   displayInput.textContent = 0;
   displayTotal.textContent = 0;
+  userInputText.textContent = 'a';
+  decimalOnOff = true;
 };
 btnDelete.addEventListener('click', function () {
   userInputValue = userInputValue.slice(0, -1);
@@ -185,15 +196,36 @@ btnDelete.addEventListener('click', function () {
 btnClear.addEventListener('click', clearAll);
 
 const addUserInput = function (e) {
-  if (typeof userInputValue === 'undefined' || userInputValue === 0) {
-    if (e.target.textContent === '0' || e.target.textContent === '.') {
-      return;
-    }
-    userInputValue = e.target.textContent;
+  if (e.target.textContent !== '.') {
+    // decimalOnOff = true;
+  }
+  console.log(userInputValue);
+  if (
+    typeof userInputValue === 'undefined' ||
+    userInputText.textContent !== 'a'
+  ) {
+    // if (e.target.textContent === '0' || e.target.textContent === '.') {
+    //   console.log('jello');
+    //   return;
+    // }
+    userInputValue += e.target.textContent;
+    // userInputValue = userInputValue.replaceAll('^0+', '');
+
+    userInputText.textContent = `${userInputValue}`;
   } else {
     userInputValue += e.target.textContent;
+    // userInputValue = userInputValue.replaceAll('^0+', '');
+    userInputText.textContent = `${userInputValue}`;
+    // userInputValue.textContent = `${userInputValue}`;
   }
-  displayInput.textContent = userInputValue;
+  if (e.target.textContent === '.') {
+    displayInput.textContent = `${Number(userInputValue)}.`;
+  } else {
+    displayInput.textContent = Number(userInputValue);
+  }
+  console.log(userInputText.textContent);
+  console.log(userInputValue, totalValue);
+  console.log(e.target.classList);
 };
 btnNine.addEventListener('click', addUserInput);
 btnEight.addEventListener('click', addUserInput);
@@ -205,6 +237,14 @@ btnThree.addEventListener('click', addUserInput);
 btnTwo.addEventListener('click', addUserInput);
 btnOne.addEventListener('click', addUserInput);
 btnZero.addEventListener('click', addUserInput);
+btnDecimal.addEventListener('click', function () {
+  if (decimalOnOff) {
+    btnDecimal.addEventListener('click', addUserInput);
+  } else {
+    btnDecimal.removeEventListener('click', addUserInput);
+  }
+  decimalOnOff = false;
+});
 btnDecimal.addEventListener('click', addUserInput);
 
 //button functions
@@ -253,9 +293,94 @@ const divide = function (a, b) {
 //     divide(value1, value2);
 //   }
 // };
+// str = str.replaceAll("^0+", "");
+// str = str.replaceAll("^0+", "");
+const operate = function () {
+  console.log(userInputText.textContent);
+  console.log(userInputText.textContent !== 'a');
+  console.log(userInputValue, totalValue);
+  if (userInputText.textContent !== 'a') {
+    userInputValue = Number(userInputValue);
+    totalValue = Number(totalValue);
+    if (btnAdd.classList.contains('active')) {
+      console.log('ADD');
+      if (totalValue === 0) {
+        totalValue = userInputValue;
+        userInputText.textContent = 'a';
+        userInputValue = '';
+      } else {
+        totalValue = add(userInputValue, totalValue);
+        displayTotal.textContent = totalValue;
+        userInputText.textContent = 'a';
+        userInputValue = '';
+      }
+    } else if (btnSubtract.classList.contains('active')) {
+      console.log('SUBRATC');
+      if (totalValue === 0) {
+        totalValue = userInputValue;
+        userInputText.textContent = 'a';
+        userInputValue = '';
+      } else {
+        totalValue = totalValue - userInputValue;
+        displayTotal.textContent = totalValue;
+        userInputText.textContent = 'a';
+        userInputValue = '';
+      }
+    } else if (btnMultiply.classList.contains('active')) {
+      console.log('MULTIPLY');
+      if (totalValue === 0) {
+        totalValue = userInputValue;
+        userInputText.textContent = 'a';
+        userInputValue = '';
+      } else {
+        console.log('hello');
+        if (userInputValue === 0 && userInputText.textContent !== 'a') {
+          console.log('hello');
+          totalValue = 0;
+          userInputText.textContent = 'a';
+          userInputValue = '';
 
-for (let i = 0; i < allBtns.length; i++) {
-  allBtns[i].addEventListener('click', function () {
-    console.log(userInputValue, totalValue);
-  });
-}
+          displayInput.textContent = '0';
+          displayTotal.textContent = '0';
+          return;
+        } else {
+          console.log('goodbye');
+          totalValue = totalValue * userInputValue;
+          displayTotal.textContent = totalValue;
+          userInputValue = '';
+
+          userInputText.textContent = 'a';
+        }
+      }
+      // removeActiveClasslist();
+    } else if (btnDivide.classList.contains('active')) {
+      console.log('DIVIFDE');
+      if (totalValue === 0) {
+        totalValue = userInputValue;
+        userInputText.textContent = 'a';
+
+        userInputValue = '';
+      } else {
+        if (userInputValue === 0 && userInputText.textContent !== 'a') {
+          displayInput.textContent = 'lol';
+          displayTotal.textContent = 'lol';
+          return;
+        } else {
+          totalValue = totalValue / userInputValue;
+          displayTotal.textContent = totalValue;
+          userInputText.textContent = 'a';
+          userInputValue = '';
+        }
+      }
+    } else {
+      totalValue = userInputValue;
+      displayTotal.textContent = totalValue;
+      userInputValue = '';
+    }
+    //   helpMe();
+  }
+  console.log(userInputValue, totalValue);
+  console.log(userInputText.textContent);
+};
+
+btnEqual.addEventListener('click', operate);
