@@ -1,4 +1,4 @@
-('use strict');
+'use strict';
 let userInputValue = '';
 let totalValue = 0;
 let decimalOnOff = true;
