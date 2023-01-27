@@ -55,6 +55,7 @@ function removeActiveClasslist() {
   userInputValue = Number(userInputValue);
 }
 btnAdd.addEventListener('click', function () {
+  console.log(userInputValue);
   // if (!userInputValue.textContent === undefined) {
   operate();
   removeActiveClasslist();
@@ -73,6 +74,8 @@ btnAdd.addEventListener('click', function () {
     userInputValue = '';
   }
   // }
+
+  displayInput.textContent = 0;
   // }
 });
 
@@ -93,6 +96,7 @@ btnSubtract.addEventListener('click', function () {
     userInputText.textContent = 'a';
     userInputValue = '';
   }
+  displayInput.textContent = 0;
 });
 
 btnMultiply.addEventListener('click', function () {
@@ -119,6 +123,7 @@ btnMultiply.addEventListener('click', function () {
       return;
     }
   }
+  displayInput.textContent = 0;
 });
 btnDivide.addEventListener('click', function () {
   // userInputValue = Number(userInputValue);
@@ -153,6 +158,12 @@ btnDivide.addEventListener('click', function () {
     //   return;
     // }
   }
+  if (displayTotal.textContent === 'lol') {
+    displayInput.textContent = 'lol';
+  } else {
+    displayInput.textContent = 0;
+  }
+  console.log(userInputValue, totalValue);
 });
 
 // btnEqual.addEventListener('click', function () {
