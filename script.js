@@ -2,6 +2,8 @@
 let userInputValue = '';
 let totalValue = 0;
 let decimalOnOff = true;
+let zeroAddReplace = true;
+let equalButtonOnOff = true;
 const division = '\u{00F7}';
 
 const displayTotal = document.querySelector('.total');
@@ -54,7 +56,16 @@ const decimalSwitch = function () {
   } else {
     btnDecimal.removeEventListener('click', addUserInput);
   }
-  console.log(userInputValue);
+};
+
+const equalSwitch = function () {
+  if (equalButtonOnOff) {
+    btnEqual.addEventListener('click', operate);
+    equalEventDisplay();
+    equalButtonOnOff = false;
+  } else {
+    btnEqual.removeEventListener('click', operate);
+  }
 };
 
 function hello() {
@@ -99,6 +110,7 @@ function equalEventDisplay() {
 }
 
 btnAdd.addEventListener('click', function () {
+  equalButtonOnOff = true;
   operate();
   removeActiveClasslist();
   btnAdd.classList.add('active');
@@ -116,6 +128,8 @@ btnAdd.addEventListener('click', function () {
 });
 
 btnSubtract.addEventListener('click', function () {
+  equalButtonOnOff = true;
+
   operate();
   removeActiveClasslist();
   btnSubtract.classList.add('active');
@@ -131,6 +145,8 @@ btnSubtract.addEventListener('click', function () {
 });
 
 btnMultiply.addEventListener('click', function () {
+  equalButtonOnOff = true;
+
   userInputValue = Number(userInputValue);
   operate();
   removeActiveClasslist();
@@ -152,6 +168,8 @@ btnMultiply.addEventListener('click', function () {
   populateEventDisplay();
 });
 btnDivide.addEventListener('click', function () {
+  equalButtonOnOff = true;
+
   operate();
   removeActiveClasslist();
   btnDivide.classList.add('active');
@@ -186,6 +204,7 @@ const clearAll = function () {
   displayTotal.textContent = 0;
   userInputText.textContent = 'a';
   decimalOnOff = true;
+  equalButtonOnOff = true;
 };
 
 const addUserInput = function (e) {
@@ -212,11 +231,16 @@ const addUserInput = function (e) {
     if (displayInput.textContent === '0') {
       return;
     } else {
-      displayInput.textContent += `${e.target.textContent}`;
+      if (zeroAddReplace) {
+        displayInput.textContent += `${e.target.textContent}`;
+      } else {
+        displayInput.textContent = `${e.target.textContent}`;
+      }
     }
   } else {
     displayInput.textContent = Number(userInputValue);
   }
+  zeroAddReplace = true;
 };
 
 const operate = function () {
@@ -224,6 +248,7 @@ const operate = function () {
   btnDecimal.addEventListener('click', addUserInput);
 
   decimalOnOff = true;
+  zeroAddReplace = false;
 
   if (userInputText.textContent !== 'a') {
     userInputValue = Number(userInputValue);
@@ -279,6 +304,7 @@ const operate = function () {
   displayInput.textContent = totalValue;
 };
 
+btnEqual.addEventListener('click', equalSwitch);
 btnEqual.addEventListener('click', operate);
 btnNine.addEventListener('click', addUserInput);
 btnEight.addEventListener('click', addUserInput);
