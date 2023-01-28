@@ -5,6 +5,7 @@ let decimalOnOff = true;
 
 const displayTotal = document.querySelector('.total');
 const displayInput = document.querySelector('.input');
+const displayPreviousEvent = document.querySelector('.event');
 const userInputText = document.querySelector('.text');
 const btnClear = document.querySelector('.clear');
 const btnDelete = document.querySelector('.delete');
@@ -53,10 +54,41 @@ const decimalSwitch = function () {
   console.log(userInputValue);
 };
 
+function hello() {
+  if (totalValue === 0) {
+    return `${userInputValue}`;
+  } else {
+    return `${totalValue}`;
+  }
+}
+
+function populateEventDisplay() {
+  console.log(userInputValue);
+  if (btnAdd.classList.contains('active')) {
+    console.log(`${hello()}`);
+    console.log(totalValue);
+    return (displayPreviousEvent.textContent = `${hello()}+`);
+    // if (totalValue === 0) {
+    //   displayPreviousEvent.textContent = `${userInputValue}+`;
+    // } else {
+    //   displayPreviousEvent.textContent = `${totalValue}+`;
+    // }
+  } else if (btnSubtract.classList.contains('active')) {
+    console.log('nearly');
+    if (totalValue === 0) {
+      displayPreviousEvent.textContent = `${userInputValue}-`;
+    } else {
+      displayPreviousEvent.textContent = `${totalValue}-`;
+    }
+    displayInput.textContent = totalValue;
+  }
+}
+
 btnAdd.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
   btnAdd.classList.add('active');
+  // populateEventDisplay();
   userInputValue = Number(userInputValue);
   if (totalValue === 0) {
     initUserInput();
@@ -65,7 +97,8 @@ btnAdd.addEventListener('click', function () {
     resetUserInput();
   }
 
-  displayInput.textContent = 0;
+  displayInput.textContent = totalValue;
+  populateEventDisplay();
 });
 
 btnSubtract.addEventListener('click', function () {
@@ -79,7 +112,8 @@ btnSubtract.addEventListener('click', function () {
     totalValue += userInputValue;
     resetUserInput();
   }
-  displayInput.textContent = 0;
+  displayInput.textContent = totalValue;
+  populateEventDisplay();
 });
 
 btnMultiply.addEventListener('click', function () {
@@ -100,7 +134,8 @@ btnMultiply.addEventListener('click', function () {
       return;
     }
   }
-  displayInput.textContent = 0;
+  displayInput.textContent = totalValue;
+  populateEventDisplay();
 });
 btnDivide.addEventListener('click', function () {
   operate();
@@ -123,15 +158,16 @@ btnDivide.addEventListener('click', function () {
   if (displayTotal.textContent === 'lol') {
     displayInput.textContent = 'lol';
   } else {
-    displayInput.textContent = 0;
+    displayInput.textContent = totalValue;
   }
+  populateEventDisplay();
 });
 
 const clearAll = function () {
   removeActiveClasslist();
   userInputValue = '';
   totalValue = 0;
-  displayInput.textContent = 0;
+  displayInput.textContent = totalValue;
   displayTotal.textContent = 0;
   userInputText.textContent = 'a';
   decimalOnOff = true;
@@ -171,7 +207,7 @@ const addUserInput = function (e) {
 const operate = function () {
   btnDecimal.addEventListener('click', addUserInput);
 
-  displayInput.textContent = 0;
+  displayInput.textContent = totalValue;
   decimalOnOff = true;
 
   if (userInputText.textContent !== 'a') {
@@ -245,3 +281,5 @@ btnDelete.addEventListener('click', function () {
   userInputValue = userInputValue.slice(0, -1);
   displayInput.textContent = userInputValue;
 });
+
+// displayPreviousEvent.textContent = 'hey';
