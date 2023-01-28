@@ -4,6 +4,8 @@ let totalValue = 0;
 let decimalOnOff = true;
 let zeroAddReplace = true;
 let equalButtonOnOff = true;
+let multiplyDivideSum0 = true;
+let symbol;
 const division = '\u{00F7}';
 
 const displayTotal = document.querySelector('.total');
@@ -37,12 +39,19 @@ function removeActiveClasslist() {
   btnSubtract.classList.remove('active');
   btnMultiply.classList.remove('active');
   btnDivide.classList.remove('active');
+  btnEqual.classList.remove('active');
   userInputValue = Number(userInputValue);
 }
 function initUserInput() {
-  totalValue = userInputValue;
+  console.log('test inituser input');
+  // if (multiplyDivideSum0) {
+  console.log('inside init');
+  totalValue = Number(userInputValue);
   userInputText.textContent = 'a';
   userInputValue = '';
+  // } else {
+  //   console.log('outside it');
+  // }
 }
 function resetUserInput() {
   displayTotal.textContent = totalValue;
@@ -70,23 +79,31 @@ const equalSwitch = function () {
 
 function hello() {
   if (totalValue === 0) {
-    return `${userInputValue}`;
+    return `${totalValue}`;
   } else {
     return `${totalValue}`;
   }
 }
 
-function populateEventDisplay() {
+const getSymbol = function () {
   if (btnAdd.classList.contains('active')) {
-    return (displayPreviousEvent.textContent = `${hello()} +`);
+    return (symbol = '+');
   } else if (btnSubtract.classList.contains('active')) {
-    return (displayPreviousEvent.textContent = `${hello()} -`);
+    return (symbol = '-');
   } else if (btnMultiply.classList.contains('active')) {
-    return (displayPreviousEvent.textContent = `${hello()} x`);
+    return (symbol = 'x');
   } else if (btnDivide.classList.contains('active')) {
-    return (displayPreviousEvent.textContent = `${hello()} ${division}`);
+    return (symbol = `${division}`);
   }
+};
+function populateEventDisplay() {
   displayInput.textContent = totalValue;
+  if (totalValue !== 0) {
+    return (displayPreviousEvent.textContent = `${hello()} ${symbol}`);
+  } else {
+    console.log('jaysus');
+    return (displayPreviousEvent.textContent = `${hello()} ${symbol}`);
+  }
 }
 
 function equalEventDisplay() {
@@ -106,6 +123,9 @@ function equalEventDisplay() {
     displayPreviousEvent.textContent = `${totalValue} ${division} ${Number(
       userInputValue
     )} =`;
+  } else if (btnEqual.classList.contains('active')) {
+    console.log('well');
+    displayPreviousEvent.textContent = totalValue;
   }
 }
 
@@ -114,7 +134,7 @@ btnAdd.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
   btnAdd.classList.add('active');
-  // populateEventDisplay();
+  getSymbol();
   userInputValue = Number(userInputValue);
   if (totalValue === 0) {
     initUserInput();
@@ -133,6 +153,8 @@ btnSubtract.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
   btnSubtract.classList.add('active');
+  getSymbol();
+
   userInputValue = Number(userInputValue);
   if (totalValue === 0) {
     initUserInput();
@@ -151,21 +173,33 @@ btnMultiply.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
   btnMultiply.classList.add('active');
+  getSymbol();
 
   if (totalValue === 0) {
-    initUserInput();
-  } else {
-    if (btnMultiply.classList.contains('active')) {
-      if (userInputValue || userInputText.textContent === '0') {
-        totalValue *= userInputValue;
-        resetUserInput();
-      }
+    if (multiplyDivideSum0) {
+      console.log(multiplyDivideSum0 + '!!');
+      initUserInput();
+      console.log('click multiply');
     } else {
-      return;
+      console.log(totalValue, userInputValue);
+      console.log('click multiply');
+      totalValue = 0;
+    }
+  } else {
+    if (multiplyDivideSum0) {
+      if (btnMultiply.classList.contains('active')) {
+        if (userInputValue || userInputText.textContent === '0') {
+          totalValue *= userInputValue;
+          resetUserInput();
+        }
+      } else {
+        return;
+      }
     }
   }
   displayInput.textContent = totalValue;
   populateEventDisplay();
+  multiplyDivideSum0 = false;
 });
 btnDivide.addEventListener('click', function () {
   equalButtonOnOff = true;
@@ -173,18 +207,25 @@ btnDivide.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
   btnDivide.classList.add('active');
+  getSymbol();
+
   userInputValue = Number(userInputValue);
 
   if (totalValue === 0) {
-    initUserInput();
+    if (multiplyDivideSum0) {
+      console.log('divid shei');
+      initUserInput();
+    }
   } else {
-    if (btnDivide.classList.contains('active')) {
-      if (userInputValue || userInputText.textContent === '0') {
-        totalValue *= userInputValue;
-        resetUserInput();
+    if (multiplyDivideSum0) {
+      if (btnDivide.classList.contains('active')) {
+        if (userInputValue || userInputText.textContent === '0') {
+          totalValue *= userInputValue;
+          resetUserInput();
+        }
+      } else {
+        return;
       }
-    } else {
-      return;
     }
   }
   if (displayTotal.textContent === 'lol') {
@@ -193,10 +234,12 @@ btnDivide.addEventListener('click', function () {
     displayInput.textContent = totalValue;
   }
   populateEventDisplay();
+  multiplyDivideSum0 = false;
 });
 
 const clearAll = function () {
   removeActiveClasslist();
+  btnEqual.classList.add('active');
   displayPreviousEvent.textContent = '';
   userInputValue = '';
   totalValue = 0;
@@ -205,45 +248,58 @@ const clearAll = function () {
   userInputText.textContent = 'a';
   decimalOnOff = true;
   equalButtonOnOff = true;
+  multiplyDivideSum0 = true;
+  console.log(multiplyDivideSum0);
 };
 
 const addUserInput = function (e) {
-  if (
-    typeof userInputValue === 'undefined' ||
-    userInputText.textContent !== 'a'
-  ) {
-    userInputValue += e.target.textContent;
+  if (equalButtonOnOff || totalValue === 0) {
+    if (
+      typeof userInputValue === 'undefined' ||
+      userInputText.textContent !== 'a'
+    ) {
+      userInputValue += e.target.textContent;
 
-    userInputText.textContent = `${userInputValue}`;
-  } else {
-    userInputValue += e.target.textContent;
-    userInputText.textContent = `${userInputValue}`;
-  }
-  if (e.target.textContent === '.') {
-    if (userInputValue === '0' || userInputValue === '.') {
-      displayInput.textContent = `0.`;
-
-      return;
+      userInputText.textContent = `${userInputValue}`;
     } else {
-      displayInput.textContent = `${Number(userInputValue)}.`;
+      userInputValue += e.target.textContent;
+      userInputText.textContent = `${userInputValue}`;
     }
-  } else if (e.target.textContent === '0') {
-    if (displayInput.textContent === '0') {
-      return;
-    } else {
-      if (zeroAddReplace) {
-        displayInput.textContent += `${e.target.textContent}`;
+    if (e.target.textContent === '.') {
+      if (userInputValue === '0' || userInputValue === '.') {
+        displayInput.textContent = `0.`;
+
+        return;
       } else {
-        displayInput.textContent = `${e.target.textContent}`;
+        displayInput.textContent = `${Number(userInputValue)}.`;
       }
+    } else if (e.target.textContent === '0') {
+      if (displayInput.textContent === '0') {
+        return;
+      } else {
+        if (zeroAddReplace) {
+          displayInput.textContent += `${e.target.textContent}`;
+        } else {
+          displayInput.textContent = `${e.target.textContent}`;
+        }
+      }
+    } else {
+      displayInput.textContent = Number(userInputValue);
     }
-  } else {
-    displayInput.textContent = Number(userInputValue);
+    zeroAddReplace = true;
   }
-  zeroAddReplace = true;
 };
 
 const operate = function () {
+  if (totalValue === 0) {
+    if (multiplyDivideSum0) {
+      console.log('hey');
+      initUserInput();
+    } else {
+      console.log('strot');
+    }
+  }
+  populateEventDisplay();
   equalEventDisplay();
   btnDecimal.addEventListener('click', addUserInput);
 
@@ -269,11 +325,18 @@ const operate = function () {
       }
     } else if (btnMultiply.classList.contains('active')) {
       if (totalValue === 0) {
-        initUserInput();
+        if (multiplyDivideSum0) {
+          initUserInput();
+          console.log('well!!');
+          console.log(multiplyDivideSum0 + 'operate multiply');
+        } else {
+          console.log('operate multiply');
+          console.log(totalValue, userInputValue);
+        }
       } else {
         if (userInputValue === 0 && userInputText.textContent !== 'a') {
           totalValue = 0;
-          displayInput.textContent = '0';
+          displayInput.textContent = totalValue;
           resetUserInput();
           return;
         } else {
@@ -284,7 +347,9 @@ const operate = function () {
       }
     } else if (btnDivide.classList.contains('active')) {
       if (totalValue === 0) {
-        initUserInput();
+        if (multiplyDivideSum0) {
+          initUserInput();
+        }
       } else {
         if (userInputValue === 0 && userInputText.textContent !== 'a') {
           displayInput.textContent = 'lol';
@@ -295,13 +360,23 @@ const operate = function () {
           resetUserInput();
         }
       }
-    } else {
-      totalValue = userInputValue;
-      displayTotal.textContent = totalValue;
-      userInputValue = '';
+    } else if (btnEqual.classList.contains('active')) {
+      if (multiplyDivideSum0) {
+        console.log('please');
+        totalValue = userInputValue;
+      }
     }
+    displayTotal.textContent = totalValue;
+    userInputValue = '';
+    resetUserInput();
   }
-  displayInput.textContent = totalValue;
+  // displayInput.textContent = totalValue;
+  removeActiveClasslist();
+  btnEqual.classList.add('active');
+
+  multiplyDivideSum0 = false;
+  console.log(multiplyDivideSum0);
+  console.log(userInputValue, totalValue);
 };
 
 btnEqual.addEventListener('click', equalSwitch);
@@ -323,5 +398,3 @@ btnDelete.addEventListener('click', function () {
   userInputValue = userInputValue.slice(0, -1);
   displayInput.textContent = userInputValue;
 });
-
-// displayPreviousEvent.textContent = 'hey';
