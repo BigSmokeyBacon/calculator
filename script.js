@@ -66,10 +66,7 @@ function hello() {
 }
 
 function populateEventDisplay() {
-  console.log(userInputValue);
   if (btnAdd.classList.contains('active')) {
-    console.log(`${hello()}`);
-    console.log(totalValue);
     return (displayPreviousEvent.textContent = `${hello()} +`);
   } else if (btnSubtract.classList.contains('active')) {
     return (displayPreviousEvent.textContent = `${hello()} -`);
@@ -79,6 +76,26 @@ function populateEventDisplay() {
     return (displayPreviousEvent.textContent = `${hello()} ${division}`);
   }
   displayInput.textContent = totalValue;
+}
+
+function equalEventDisplay() {
+  if (btnAdd.classList.contains('active')) {
+    displayPreviousEvent.textContent = `${totalValue} + ${Number(
+      userInputValue
+    )} =`;
+  } else if (btnSubtract.classList.contains('active')) {
+    displayPreviousEvent.textContent = `${totalValue} - ${Number(
+      userInputValue
+    )} =`;
+  } else if (btnMultiply.classList.contains('active')) {
+    displayPreviousEvent.textContent = `${totalValue} x ${Number(
+      userInputValue
+    )} =`;
+  } else if (btnDivide.classList.contains('active')) {
+    displayPreviousEvent.textContent = `${totalValue} ${division} ${Number(
+      userInputValue
+    )} =`;
+  }
 }
 
 btnAdd.addEventListener('click', function () {
@@ -203,9 +220,9 @@ const addUserInput = function (e) {
 };
 
 const operate = function () {
+  equalEventDisplay();
   btnDecimal.addEventListener('click', addUserInput);
 
-  displayInput.textContent = totalValue;
   decimalOnOff = true;
 
   if (userInputText.textContent !== 'a') {
@@ -259,6 +276,7 @@ const operate = function () {
       userInputValue = '';
     }
   }
+  displayInput.textContent = totalValue;
 };
 
 btnEqual.addEventListener('click', operate);
