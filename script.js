@@ -53,10 +53,7 @@ const decimalSwitch = function () {
   console.log(userInputValue);
 };
 
-btnDecimal.addEventListener('click', decimalSwitch);
-
 btnAdd.addEventListener('click', function () {
-  decimalOnOff = true;
   operate();
   removeActiveClasslist();
   btnAdd.classList.add('active');
@@ -74,7 +71,6 @@ btnAdd.addEventListener('click', function () {
 btnSubtract.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
-  decimalOnOff = true;
   btnSubtract.classList.add('active');
   userInputValue = Number(userInputValue);
   if (totalValue === 0) {
@@ -90,7 +86,6 @@ btnMultiply.addEventListener('click', function () {
   userInputValue = Number(userInputValue);
   operate();
   removeActiveClasslist();
-  decimalOnOff = true;
   btnMultiply.classList.add('active');
 
   if (totalValue === 0) {
@@ -110,7 +105,6 @@ btnMultiply.addEventListener('click', function () {
 btnDivide.addEventListener('click', function () {
   operate();
   removeActiveClasslist();
-  decimalOnOff = true;
   btnDivide.classList.add('active');
   userInputValue = Number(userInputValue);
 
@@ -175,6 +169,8 @@ const addUserInput = function (e) {
 };
 
 const operate = function () {
+  btnDecimal.addEventListener('click', addUserInput);
+
   displayInput.textContent = 0;
   decimalOnOff = true;
 
@@ -242,6 +238,7 @@ btnThree.addEventListener('click', addUserInput);
 btnTwo.addEventListener('click', addUserInput);
 btnOne.addEventListener('click', addUserInput);
 btnZero.addEventListener('click', addUserInput);
+btnDecimal.addEventListener('click', decimalSwitch);
 btnDecimal.addEventListener('click', addUserInput);
 btnClear.addEventListener('click', clearAll);
 btnDelete.addEventListener('click', function () {
