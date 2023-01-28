@@ -2,6 +2,7 @@
 let userInputValue = '';
 let totalValue = 0;
 let decimalOnOff = true;
+const division = '\u{00F7}';
 
 const displayTotal = document.querySelector('.total');
 const displayInput = document.querySelector('.input');
@@ -26,6 +27,8 @@ const btnTwo = document.querySelector('.two');
 const btnOne = document.querySelector('.one');
 const btnZero = document.querySelector('.zero');
 const allBtns = document.querySelectorAll('.btn');
+
+btnDivide.textContent = division;
 
 function removeActiveClasslist() {
   btnAdd.classList.remove('active');
@@ -67,21 +70,15 @@ function populateEventDisplay() {
   if (btnAdd.classList.contains('active')) {
     console.log(`${hello()}`);
     console.log(totalValue);
-    return (displayPreviousEvent.textContent = `${hello()}+`);
-    // if (totalValue === 0) {
-    //   displayPreviousEvent.textContent = `${userInputValue}+`;
-    // } else {
-    //   displayPreviousEvent.textContent = `${totalValue}+`;
-    // }
+    return (displayPreviousEvent.textContent = `${hello()} +`);
   } else if (btnSubtract.classList.contains('active')) {
-    console.log('nearly');
-    if (totalValue === 0) {
-      displayPreviousEvent.textContent = `${userInputValue}-`;
-    } else {
-      displayPreviousEvent.textContent = `${totalValue}-`;
-    }
-    displayInput.textContent = totalValue;
+    return (displayPreviousEvent.textContent = `${hello()} -`);
+  } else if (btnMultiply.classList.contains('active')) {
+    return (displayPreviousEvent.textContent = `${hello()} x`);
+  } else if (btnDivide.classList.contains('active')) {
+    return (displayPreviousEvent.textContent = `${hello()} ${division}`);
   }
+  displayInput.textContent = totalValue;
 }
 
 btnAdd.addEventListener('click', function () {
@@ -165,6 +162,7 @@ btnDivide.addEventListener('click', function () {
 
 const clearAll = function () {
   removeActiveClasslist();
+  displayPreviousEvent.textContent = '';
   userInputValue = '';
   totalValue = 0;
   displayInput.textContent = totalValue;
